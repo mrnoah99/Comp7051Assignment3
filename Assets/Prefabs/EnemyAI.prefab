@@ -406,7 +406,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a85ce895f4b5542c0bf3dff34db02aee, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a85ce895f4b5542c0bf3dff34db02aee, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1164,7 +1164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 3825926239667825288}
   walkPoint: {x: 0, y: 0, z: 0}
-  walkPointRange: 0
+  walkPointRange: 10
   health: 3
   musicDay: {fileID: 2460542057299293504}
   musicNight: {fileID: 6276580708943217756}
