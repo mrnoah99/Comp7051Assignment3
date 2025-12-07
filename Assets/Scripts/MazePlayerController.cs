@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 public class MazePlayerController : MonoBehaviour
 {
+    public PongDoor pongDoor;
+    
     [SerializeField]
     private float xSens = 30;
     [SerializeField]
@@ -85,11 +87,12 @@ public class MazePlayerController : MonoBehaviour
         float lockedY = Mathf.Clamp(rb.linearVelocity.y, -1, 1);
         float lockedZ = Mathf.Clamp(rb.linearVelocity.z, -1, 1);
         rb.linearVelocity = new Vector3(lockedX, lockedY, lockedZ);
+        Vector3 vel = rb.linearVelocity;
 
-        if (rb.linearVelocity != new Vector3(0, 0, 0))
+        if (vel.x > 0.15 || vel.x < -0.15 || vel.z > 0.15 || vel.z < -0.15)
         {
             timer += Time.fixedDeltaTime;
-            if (timer >= 0.65)
+            if (timer >= 0.85)
             {
                 footstep.Play();
                 timer = 0;
@@ -107,6 +110,10 @@ public class MazePlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Finish"))
         {
             DisplayWinText();
+        }
+        if (other.gameObject.CompareTag("PongDoor"))
+        {
+            pongDoor.StartPong();
         }
     }
 }

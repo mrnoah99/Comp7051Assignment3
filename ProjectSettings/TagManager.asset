@@ -7,6 +7,13 @@ TagManager:
   - BallSpawnPoint
   - Wall
   - Floor
+  - AI
+  - PongDoor
+  - Enemy
+  - EnemyHitSound
+  - Score
+  - EnemyRespawnSound
+  - EnemyDeathSounds
   layers:
   - Default
   - TransparentFX

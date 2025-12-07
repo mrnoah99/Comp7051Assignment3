@@ -6,8 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/Maze.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Gameplay.unity
+    guid: 6e72edff14c6896498de5a74707b0ca8
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 214f62614db311248b1e020601867255
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: ff796ee7b2a93214e9ad3eb5eae351f5, type: 3}
   m_UseUCBPForAssetBundles: 0

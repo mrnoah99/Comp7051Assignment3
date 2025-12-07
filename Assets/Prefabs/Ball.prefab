@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitSound: {fileID: 8253303288057629392}
+  enemyHitSound: {fileID: 0}
 --- !u!1 &3421130223521511684
 GameObject:
   m_ObjectHideFlags: 0

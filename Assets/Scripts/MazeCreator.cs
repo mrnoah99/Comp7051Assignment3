@@ -25,6 +25,8 @@ public class MazeCreator : MonoBehaviour
     private GameObject exitLoc;
     [SerializeField]
     private NavMeshSurface surface;
+    [SerializeField]
+    private MazeCell pongDoor;
 
     private MazeCell[,] mazeGrid;
     private InputActions inputActions;
@@ -32,9 +34,12 @@ public class MazeCreator : MonoBehaviour
     private InputAction reset;
     private bool disableCollision = false;
     private float runtime = 0;
+    private Vector2 rand_pos;
+    private PongDoor[] pongDoors;
     
     IEnumerator Start()
     {
+        rand_pos = new Vector2(Random.Range(1, mazeWidth - 1), Random.Range(1, mazeDepth - 1));
         // Used for handling the walk-through-walls cheat and the reset buttons.
         inputActions = new();
         interact = inputActions.Player.Interact;
@@ -51,7 +56,13 @@ public class MazeCreator : MonoBehaviour
         {
             for (int j = 0; j < mazeDepth; j++)
             {
-                mazeGrid[i, j] = Instantiate(wallSegment, new Vector3(i, 0, j), Quaternion.identity);
+                if (i == rand_pos.x && j == rand_pos.y)
+                {
+                    mazeGrid[i, j] = Instantiate(pongDoor, new Vector3(i, 0, j), Quaternion.identity);
+                } else
+                {
+                    mazeGrid[i, j] = Instantiate(wallSegment, new Vector3(i, 0, j), Quaternion.identity);
+                }
             }
         }
 
@@ -71,7 +82,23 @@ public class MazeCreator : MonoBehaviour
 
         // Starts generating the maze
         yield return GenerateMaze(null, mazeGrid[start_x, 0]);
-        
+
+        pongDoors = FindObjectsByType<PongDoor>(sortMode: FindObjectsSortMode.None);
+        if (pongDoors.Length > 1)
+        {
+            int rand_index = Random.Range(0, pongDoors.Length);
+            for (int i = 0; i < pongDoors.Length; i++)
+            {
+                if (i != rand_index)
+                {
+                    pongDoors[i].gameObject.SetActive(false);
+                } else
+                {
+                    playerRef.GetComponent<MazePlayerController>().pongDoor = pongDoors[i];
+                }
+            }
+        }
+
         surface.BuildNavMesh(); 
     }
 
@@ -82,7 +109,7 @@ public class MazeCreator : MonoBehaviour
 
         // Used only to make the maze be able to generate over time instead of instantly, can be removed/commented
         // out later if we don't want it.
-        yield return new WaitForSeconds(0.025f);
+        yield return new WaitForSeconds(0.005f);
 
         MazeCell nextCell;
 

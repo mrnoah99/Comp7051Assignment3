@@ -11,6 +11,10 @@ public class EnemyAIController : MonoBehaviour
     public Vector3 walkPoint;
     bool walkPointSet; // Target point for enemy to move towards
     public float walkPointRange;
+    public int health = 3;
+    public AudioSource musicDay;    
+    public AudioSource musicNight;
+    public MazeGameController gameController;
     
     void Start()
     {
@@ -23,6 +27,8 @@ public class EnemyAIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gameController == null) gameController = FindFirstObjectByType<MazeGameController>();
+
         if (!walkPointSet)
         {
             SearchWalkPoint();
@@ -58,6 +64,12 @@ public class EnemyAIController : MonoBehaviour
         // animator.SetFloat("Move", walkPoint.x, walkPoint.y, walkPoint.z);
         
 
+    }
+
+    public void Dead()
+    {
+        gameController.EnemyDeath();
+        Destroy(gameObject);
     }
     
     
