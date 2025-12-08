@@ -92,7 +92,7 @@ public class MazePlayerController : MonoBehaviour
         if (vel.x > 0.15 || vel.x < -0.15 || vel.z > 0.15 || vel.z < -0.15)
         {
             timer += Time.fixedDeltaTime;
-            if (timer >= 0.85)
+            if (timer >= 0.5)
             {
                 footstep.Play();
                 timer = 0;

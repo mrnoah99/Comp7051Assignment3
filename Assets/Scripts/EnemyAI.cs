@@ -23,7 +23,7 @@ public class EnemyAIController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         
-
+        ChangeToDay();
     }
 
     // Update is called once per frame
@@ -107,6 +107,17 @@ public class EnemyAIController : MonoBehaviour
         } else
         {
             musicNight.UnPause();
+        }
+    }
+
+    public void MusicOnRespawn()
+    {
+        if (day)
+        {
+            ChangeToDay();
+        } else
+        {
+            ChangeToNight();
         }
     }
 }

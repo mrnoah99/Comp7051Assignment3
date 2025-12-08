@@ -144,13 +144,13 @@ public class GameController : MonoBehaviour
         {
             menu.text = "Player 1 wins!";
             gameOver = true;
-            StartCoroutine(nameof(GameOver));
+            StartCoroutine(GameOver());
         }
         else if (p2Score == 5)
         {
             menu.text = "Player 2 wins!";
             gameOver = true;
-            StartCoroutine(nameof(GameOver));
+            StartCoroutine(GameOver());
         }
         else
         {
