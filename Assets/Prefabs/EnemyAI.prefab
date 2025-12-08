@@ -183,7 +183,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: b36771c74ca68304d8da4ff394038d45, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.8
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -312,7 +312,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 5270508fda7a0894195750cf305ee1eb, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.8
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1208,7 +1208,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 3825926239667825288}
   walkPoint: {x: 0, y: 0, z: 0}
-  walkPointRange: 10
+  walkPointRangeX: 0
+  walkPointRangeZ: 0
   health: 3
   musicDay: {fileID: 2460542057299293504}
   musicNight: {fileID: 6276580708943217756}

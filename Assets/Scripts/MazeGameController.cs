@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.InputSystem;
 
 public class MazeGameController : MonoBehaviour
@@ -14,6 +15,19 @@ public class MazeGameController : MonoBehaviour
     private Transform deathSoundsPos;
     [SerializeField]
     private Transform respawnSoundPos;
+
+    [SerializeField]
+    private Material east;
+    [SerializeField]
+    private Material west;
+    [SerializeField]
+    private Material north;
+    [SerializeField]
+    private Material south;
+    [SerializeField]
+    private Material floor;
+    [SerializeField]
+    private Light sceneLight;
 
     private float time = 0;
     private bool enemyDead = false;
@@ -36,23 +50,39 @@ public class MazeGameController : MonoBehaviour
         pausePlay.performed += PausePlay;
         pausePlay.Enable();
 
-        day.performed += DayMusic;
+        day.performed += Day;
         day.Enable();
 
-        night.performed += NightMusic;
+        night.performed += Night;
         night.Enable();
 
         creator = gameObject.GetComponent<MazeCreator>();
     }
 
-    private void DayMusic(InputAction.CallbackContext context)
+    private void Day(InputAction.CallbackContext context)
     {
         enemy.ChangeToDay();
+        east.SetFloat("_Day", 1);
+        west.SetFloat("_Day", 1);
+        north.SetFloat("_Day", 1);
+        south.SetFloat("_Day", 1);
+        floor.SetFloat("_Day", 1);
+        sceneLight.intensity = 1;
+        sceneLight.colorTemperature = 5000;
+        sceneLight.color = Color.white;
     }
 
-    private void NightMusic(InputAction.CallbackContext context)
+    private void Night(InputAction.CallbackContext context)
     {
         enemy.ChangeToNight();
+        east.SetFloat("_Day", 0);
+        west.SetFloat("_Day", 0);
+        north.SetFloat("_Day", 0);
+        south.SetFloat("_Day", 0);
+        floor.SetFloat("_Day", 0);
+        sceneLight.intensity = 0.1f;
+        sceneLight.colorTemperature = 10000;
+        sceneLight.color = Color.gray;
     }
 
     private void PausePlay(InputAction.CallbackContext context)
@@ -99,5 +129,8 @@ public class MazeGameController : MonoBehaviour
         enemyDead = true;
     }
 
-
+    public void ResetKills()
+    {
+        enemyDeathCount = 0;
+    } 
 }

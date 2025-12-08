@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -11,6 +12,9 @@ public class GameController : MonoBehaviour
     public GameObject player2;
     public GameObject ai;
     public static bool spawnPlayer = false;
+
+    [SerializeField]
+    private SceneChanger sceneChanger;
 
     private Rigidbody rb;
     private int leftright; // Used to determine the launch's x direction
@@ -140,15 +144,27 @@ public class GameController : MonoBehaviour
         {
             menu.text = "Player 1 wins!";
             gameOver = true;
+            StartCoroutine(nameof(GameOver));
         }
         else if (p2Score == 5)
         {
             menu.text = "Player 2 wins!";
             gameOver = true;
+            StartCoroutine(nameof(GameOver));
         }
         else
         {
             menu.text = "Score!";
+        }
+    }
+
+    private IEnumerator GameOver()
+    {
+        yield return new WaitForSeconds(3);
+        if (gameOver)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            sceneChanger.ChangeScene("Maze");
         }
     }
 }

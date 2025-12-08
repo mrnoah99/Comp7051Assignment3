@@ -7,6 +7,7 @@ public class PongDoor : MonoBehaviour
 
     public void StartPong()
     {
+        Cursor.lockState = CursorLockMode.None;
         sceneChanger.ChangeScene("Menu");
     }
 }

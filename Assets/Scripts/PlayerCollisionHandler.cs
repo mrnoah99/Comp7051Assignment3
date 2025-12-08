@@ -8,10 +8,12 @@ public class PlayerCollisionHandler : MonoBehaviour
     private MazeCreator creator;
     
     private MazeGameScore gameScore;
+    private MazeGameController gameController;
 
     void Start()
     {
         gameScore = FindFirstObjectByType<MazeGameScore>();
+        gameController = FindFirstObjectByType<MazeGameController>();
     }
 
     void OnCollisionEnter(Collision other)
@@ -21,8 +23,9 @@ public class PlayerCollisionHandler : MonoBehaviour
             wallCollide.Play();
         } if (other.gameObject.CompareTag("Enemy"))
         {
-            StartCoroutine(creator.NewMaze());
             gameScore.ZeroScore();
+            gameController.ResetKills();
+            StartCoroutine(creator.NewMaze());
         }
     }
 }
