@@ -8,7 +8,7 @@ public class MazeGameScore : MonoBehaviour
     void Start()
     {
         // put loading from save in here
-        score = 0;
+        score = SaveGameController.sGCtrl.score;
         gameObject.GetComponent<TextMeshProUGUI>().text = "Score: " + score;
     }
 
