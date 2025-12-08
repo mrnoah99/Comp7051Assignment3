@@ -7,10 +7,12 @@ public class EnemyAIController : MonoBehaviour
     [SerializeField]
     private NavMeshAgent agent;
     private Animator animator;
+    private bool day;
 
     public Vector3 walkPoint;
     bool walkPointSet; // Target point for enemy to move towards
-    public float walkPointRange;
+    public float walkPointRangeX;
+    public float walkPointRangeZ;
     public int health = 3;
     public AudioSource musicDay;    
     public AudioSource musicNight;
@@ -50,8 +52,8 @@ public class EnemyAIController : MonoBehaviour
 
     private void SearchWalkPoint()
     {
-        float randomZ = Random.Range(-walkPointRange, walkPointRange);
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
+        float randomX = Random.Range(0.1f, walkPointRangeX);
+        float randomZ = Random.Range(0.1f, walkPointRangeZ);
         
         walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
         
@@ -71,6 +73,40 @@ public class EnemyAIController : MonoBehaviour
         gameController.EnemyDeath();
         Destroy(gameObject);
     }
+
+    public void ChangeToDay()
+    {
+        musicNight.Stop();
+        musicDay.Play();
+        day = true;
+    }
+
+    public void ChangeToNight()
+    {
+        musicDay.Stop();
+        musicNight.Play();
+        day = false;
+    }
     
-    
+    public void Pause()
+    {
+        if (day)
+        {
+            musicDay.Pause();
+        } else
+        {
+            musicNight.Pause();
+        }
+    }
+
+    public void Play()
+    {
+        if (day)
+        {
+            musicDay.UnPause();
+        } else
+        {
+            musicNight.UnPause();
+        }
+    }
 }

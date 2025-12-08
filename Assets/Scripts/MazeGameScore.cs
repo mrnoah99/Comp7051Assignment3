@@ -23,4 +23,10 @@ public class MazeGameScore : MonoBehaviour
         score--;
         gameObject.GetComponent<TextMeshProUGUI>().text = "Score: " + score;
     }
+
+    public void ZeroScore()
+    {
+        score = 0;
+        gameObject.GetComponent<TextMeshProUGUI>().text = "Score: " + score;
+    }
 }

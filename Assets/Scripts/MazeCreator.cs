@@ -9,16 +9,15 @@ using Random = UnityEngine.Random;
 
 public class MazeCreator : MonoBehaviour
 {
+    public int mazeWidth = 11;
+    public int mazeDepth = 11;
+
     [SerializeField]
     private MazeCell wallSegment;
     [SerializeField]
     private GameObject playerRef;
     [SerializeField] 
     private GameObject enemyRef;
-    [SerializeField]
-    private int mazeWidth = 11;
-    [SerializeField]
-    private int mazeDepth = 11;
     [SerializeField]
     private GameObject entranceLoc;
     [SerializeField]
@@ -39,6 +38,31 @@ public class MazeCreator : MonoBehaviour
     
     IEnumerator Start()
     {
+        yield return NewMaze(); 
+    }
+
+    private void ClearMaze()
+    {
+        MazeCell[] mazeCells = FindObjectsByType<MazeCell>(FindObjectsSortMode.None);
+        foreach (MazeCell m in mazeCells)
+        {
+            Destroy(m.gameObject);
+        }
+    }
+
+    private void UpdatePosition()
+    {
+        gameObject.transform.localScale = new(mazeDepth/10f, 1, mazeWidth/10f);
+        gameObject.transform.position = new(mazeDepth/2, 0, mazeWidth/2);
+    }
+
+    public IEnumerator NewMaze()
+    {
+        ClearMaze();
+
+        var enemy = FindFirstObjectByType<EnemyAIController>();
+        if (enemy != null) Destroy(enemy.gameObject);
+
         rand_pos = new Vector2(Random.Range(1, mazeWidth - 1), Random.Range(1, mazeDepth - 1));
         // Used for handling the walk-through-walls cheat and the reset buttons.
         inputActions = new();
@@ -48,7 +72,10 @@ public class MazeCreator : MonoBehaviour
         reset.Enable();
         
         // Spawn EnemyAI prefab into maze
-        Instantiate(enemyRef, Vector3.zero, Quaternion.identity);
+        var newEnemy = Instantiate(enemyRef, Vector3.zero, Quaternion.identity);
+        EnemyAIController enemyAI = newEnemy.GetComponent<EnemyAIController>();
+        enemyAI.walkPointRangeX = mazeDepth;
+        enemyAI.walkPointRangeZ = mazeWidth;
 
         // Fills out the entire maze area with the wall segments.
         mazeGrid = new MazeCell[mazeWidth, mazeDepth];
@@ -99,7 +126,9 @@ public class MazeCreator : MonoBehaviour
             }
         }
 
-        surface.BuildNavMesh(); 
+        UpdatePosition();
+
+        surface.BuildNavMesh();
     }
 
     private IEnumerator GenerateMaze(MazeCell previous, MazeCell current)
