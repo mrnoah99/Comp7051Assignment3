@@ -2,7 +2,7 @@
 Fog Shader: https://gist.github.com/HAliss/f84e3c482ea2ac9664a3048fa734093c
 Fog Shader Implementation Tutorial: https://www.youtube.com/watch?v=8P338C9vYEE&t=1s
 */
-Shader "Tutorial/VolumetricFog"
+Shader "Tutorial/Fog"
 {
     Properties
     {
