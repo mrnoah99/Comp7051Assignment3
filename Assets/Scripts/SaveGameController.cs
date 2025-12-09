@@ -9,8 +9,9 @@ public class SaveGameController : MonoBehaviour
     public int score = 0; //use persistentDataPath to save high score in custom GameData object
     public Transform player;
     public Transform enemy;
-    const string fileName = "/savegame.dat";
+    const string fileName = "/savegame.json";
     public static SaveGameController sGCtrl;
+    public GameData data;
 
     private void Awake()
     {
@@ -40,8 +41,10 @@ public class SaveGameController : MonoBehaviour
         public float playerX, playerY, playerZ;
         public float enemyX, enemyY, enemyZ;
         public int savedScore;
+        //public string mazeSeed;
 
-        public GameData(Vector3 playerPos, Vector3 enemyPos, int score)
+
+        public GameData(Vector3 playerPos, Vector3 enemyPos, int score, string seed)
         {
             playerX = playerPos.x;
             playerY = playerPos.y;
@@ -52,22 +55,20 @@ public class SaveGameController : MonoBehaviour
             enemyZ = enemyPos.z;
 
             savedScore = score;
+            //mazeSeed = seed;
         }
     }
 
     private void LoadGame()
     {
-        if (File.Exists(Application.persistentDataPath + fileName))
+        if (System.IO.File.Exists(Application.persistentDataPath + fileName))
         {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream fs = File.Open(Application.persistentDataPath + fileName, FileMode.Open, FileAccess.Read);
-            GameData data = (GameData)bf.Deserialize(fs);
-            fs.Close();
-            // Restore score
+            string json = System.IO.File.ReadAllText(Application.persistentDataPath + fileName);
+            data = JsonUtility.FromJson<GameData>(json);
+            Debug.Log("Game loaded!");
+            // Restore score, enemy location, player location, and maze layout
             sGCtrl.score = data.savedScore;
-            // Restore player location
             player.position = new Vector3(data.playerX, data.playerY, data.playerZ);
-            // Restore enemy location
             enemy.position = new Vector3(data.enemyX, data.enemyY, data.enemyZ);
             
         }
@@ -75,13 +76,10 @@ public class SaveGameController : MonoBehaviour
 
     private void SaveGame()
     {
-        BinaryFormatter bf = new BinaryFormatter(); //class to help serialize and deserialize data
-        FileStream fs = File.Open(Application.persistentDataPath + fileName, FileMode.OpenOrCreate); //open file path for writing
+        string json = JsonUtility.ToJson(data);
+        System.IO.File.WriteAllText(Application.persistentDataPath + fileName, json); //open file path for writing
+        Debug.Log("Game saved!");
 
-        GameData data = new GameData(player.position, enemy.position, score);
-
-        bf.Serialize(fs, data); //use binary formatter to serialize data at filepath
-        fs.Close();
     }
 }
 
