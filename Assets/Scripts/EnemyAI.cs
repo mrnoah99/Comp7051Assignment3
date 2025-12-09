@@ -22,8 +22,6 @@ public class EnemyAIController : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        
-        ChangeToDay();
     }
 
     // Update is called once per frame
@@ -118,6 +116,19 @@ public class EnemyAIController : MonoBehaviour
         } else
         {
             ChangeToNight();
+        }
+    }
+
+    public void UpdateVolume(bool fog)
+    {
+        if (fog)
+        {
+            musicDay.volume /= 2;
+            musicNight.volume /=2;
+        } else
+        {
+            musicDay.volume *= 2;
+            musicNight.volume *= 2;
         }
     }
 }

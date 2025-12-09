@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 public class SaveGameController : MonoBehaviour
 {
@@ -13,6 +14,13 @@ public class SaveGameController : MonoBehaviour
     public static SaveGameController sGCtrl;
     public GameData data;
 
+    [SerializeField]
+    private GameObject menuObj;
+
+    private InputActions inputActions;
+    private InputAction menu;
+
+
     private void Awake()
     {
         if (sGCtrl == null)
@@ -21,16 +29,11 @@ public class SaveGameController : MonoBehaviour
             sGCtrl = this;
             LoadGame();
         }
-    }
-    
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            SaveGame();
-            Application.Quit();
-            Debug.Log("Quitting game . . .");
-        }
+
+        inputActions = new();
+        menu = inputActions.Player.OpenMenu;
+        menu.performed += OpenMenu;
+        menu.Enable();
     }
 
     //Small custom class to hold high score that will be saved and serialized using persistentDataPath
@@ -59,7 +62,19 @@ public class SaveGameController : MonoBehaviour
         }
     }
 
-    private void LoadGame()
+    private void OpenMenu(InputAction.CallbackContext context)
+    {
+        menuObj.SetActive(!menuObj.activeInHierarchy);
+        Cursor.lockState = menuObj.activeInHierarchy ? CursorLockMode.None : CursorLockMode.Locked;
+    }
+
+    public void CloseMenu()
+    {
+        menuObj.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public void LoadGame()
     {
         if (System.IO.File.Exists(Application.persistentDataPath + fileName))
         {
@@ -74,12 +89,18 @@ public class SaveGameController : MonoBehaviour
         }
     }
 
-    private void SaveGame()
+    public void SaveGame()
     {
         string json = JsonUtility.ToJson(data);
         System.IO.File.WriteAllText(Application.persistentDataPath + fileName, json); //open file path for writing
         Debug.Log("Game saved!");
 
+    }
+
+    public void ExitGame()
+    {
+        SaveGame();
+        Application.Quit();
     }
 }
 

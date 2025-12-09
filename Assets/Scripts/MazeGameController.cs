@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.InputSystem;
 
 public class MazeGameController : MonoBehaviour
@@ -93,7 +92,7 @@ public class MazeGameController : MonoBehaviour
         sceneLight.intensity = 1;
         sceneLight.colorTemperature = 5000;
         sceneLight.color = Color.white;
-        UnityEngine.RenderSettings.skybox.SetFloat("_Exposure", 1f);
+        RenderSettings.skybox.SetFloat("_Exposure", 1f);
     }
 
     private void StartDay()
@@ -109,7 +108,7 @@ public class MazeGameController : MonoBehaviour
         sceneLight.intensity = 1;
         sceneLight.colorTemperature = 5000;
         sceneLight.color = Color.white;
-        UnityEngine.RenderSettings.skybox.SetFloat("_Exposure", 1f);
+        RenderSettings.skybox.SetFloat("_Exposure", 1f);
     }
 
     private void Night(InputAction.CallbackContext context)
@@ -125,7 +124,7 @@ public class MazeGameController : MonoBehaviour
         sceneLight.intensity = 0.025f;
         sceneLight.colorTemperature = 10000;
         sceneLight.color = Color.gray;
-        UnityEngine.RenderSettings.skybox.SetFloat("_Exposure", 0.2f);
+        RenderSettings.skybox.SetFloat("_Exposure", 0.2f);
     }
 
     private void FlashLight(InputAction.CallbackContext context)
@@ -166,18 +165,8 @@ public class MazeGameController : MonoBehaviour
 
     private void ToggleFog(InputAction.CallbackContext context)
     {
-        if (fogEnabled)
-        {
-            // disable fog? dunno if that's handled here
-            enemy.musicDay.volume *= 2;
-            enemy.musicNight.volume *= 2;
-        } else
-        {
-            // enable fog? dunno if that's handled here
-            enemy.musicDay.volume /= 2;
-            enemy.musicNight.volume /= 2;
-        }
         fogEnabled = !fogEnabled;
+        enemy.UpdateVolume(fogEnabled);
     }
 
     void Update()
@@ -192,7 +181,10 @@ public class MazeGameController : MonoBehaviour
             enemy.gameController = this;
             enemy.walkPointRangeX = creator.mazeDepth;
             enemy.walkPointRangeZ = creator.mazeWidth;
+            if (sceneLight.intensity == 0.025f) enemy.ChangeToNight();
+            else enemy.ChangeToDay();
             enemy.MusicOnRespawn();
+            enemy.UpdateVolume(fogEnabled);
             respawnSoundPos.position = enemy.transform.position;
             respawnSound.Play();
             enemyDead = false;
