@@ -3,6 +3,7 @@ using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class SaveGameController : MonoBehaviour
 {
@@ -43,22 +44,7 @@ public class SaveGameController : MonoBehaviour
         public float playerX, playerY, playerZ;
         public float enemyX, enemyY, enemyZ;
         public int savedScore;
-        //public string mazeSeed;
-
-
-        public GameData(Vector3 playerPos, Vector3 enemyPos, int score, string seed)
-        {
-            playerX = playerPos.x;
-            playerY = playerPos.y;
-            playerZ = playerPos.z;
-
-            enemyX = enemyPos.x;
-            enemyY = enemyPos.y;
-            enemyZ = enemyPos.z;
-
-            savedScore = score;
-            //mazeSeed = seed;
-        }
+        
     }
 
     private void OpenMenu(InputAction.CallbackContext context)
@@ -79,27 +65,55 @@ public class SaveGameController : MonoBehaviour
         {
             string json = File.ReadAllText(Application.persistentDataPath + fileName);
             data = JsonUtility.FromJson<GameData>(json);
-            Debug.Log("Game loaded!");
+
+            if (data == null)
+            {
+                Debug.Log("Save not found!");
+                return;
+            }
+            
             // Restore score, enemy location, player location, and maze layout
             sGCtrl.score = data.savedScore;
             player.position = new Vector3(data.playerX, data.playerY, data.playerZ);
             enemy.position = new Vector3(data.enemyX, data.enemyY, data.enemyZ);
             
+            Debug.Log("Game loaded!");
+            
         }
+    }
+    
+    public static void SaveData(Vector3 playerPos, Vector3 enemyPos, int score)
+    {
+        GameData data = new GameData
+        {
+            playerX = playerPos.x,
+            playerY = playerPos.y,
+            playerZ = playerPos.z,
+
+            enemyX = enemyPos.x,
+            enemyY = enemyPos.y,
+            enemyZ = enemyPos.z,
+
+            savedScore = score
+        };
+        
+        string json = JsonUtility.ToJson(data, true);
+        File.WriteAllText(Application.persistentDataPath + fileName, json);
+        Debug.Log("Game saved to  " + Application.persistentDataPath + fileName);
+
     }
 
     public void SaveGame()
     {
-        string json = JsonUtility.ToJson(data);
-        File.WriteAllText(Application.persistentDataPath + fileName, json); //open file path for writing
-        Debug.Log("Game saved!");
-
+        SaveData(player.position, enemy.position, score);
+        Debug.Log($"Game saved: playerPos: {player.position} | enemyPos: {enemy.position} | score: {score}");
     }
 
     public void ExitGame()
     {
         SaveGame();
         Application.Quit();
+        Debug.Log("Bye bye. . .");
     }
 }
 
