@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
@@ -6,15 +7,43 @@ public class SceneChangeFogUpdate : MonoBehaviour
 {
     [SerializeField]
     private FullScreenPassRendererFeature fog;
-
-    void Start()
+    [SerializeField] 
+    private GameObject fogObj;
+    
+    private InputActions inputActions;
+    private InputAction fogToggle;
+    
+    void Awake()
     {
         if (SceneManager.GetActiveScene().name != "Maze")
         {
             fog.SetActive(false);
-        } else
-        {
-            fog.SetActive(true); //change to handle based on whether we actually want the fog enabled or not
         }
     }
+
+    void Start()
+    {
+        inputActions = new();
+        fogToggle = inputActions.Player.FogToggle;
+        fogToggle.performed += ToggleFog;
+        fogToggle.Enable();
+
+    }
+    
+    private void ToggleFog(InputAction.CallbackContext context)
+    {
+        fog.SetActive(true); //change to handle based on whether we actually want the fog enabled or not
+        fogObj.SetActive(!fogObj.activeInHierarchy);
+        Cursor.lockState = fogObj.activeInHierarchy ? CursorLockMode.None : CursorLockMode.Locked;
+        Debug.Log("Fog enabled");
+    }
+
+    public void DisableFog()
+    {
+        fog.SetActive(false);
+        fogObj.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Debug.Log("Fog disabled");
+    }
+    
 }

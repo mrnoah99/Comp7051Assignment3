@@ -19,8 +19,8 @@ public class SaveGameController : MonoBehaviour
 
     private InputActions inputActions;
     private InputAction menu;
-
-
+    
+    
     private void Awake()
     {
         if (sGCtrl == null)
