@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
@@ -76,9 +75,9 @@ public class SaveGameController : MonoBehaviour
 
     public void LoadGame()
     {
-        if (System.IO.File.Exists(Application.persistentDataPath + fileName))
+        if (File.Exists(Application.persistentDataPath + fileName))
         {
-            string json = System.IO.File.ReadAllText(Application.persistentDataPath + fileName);
+            string json = File.ReadAllText(Application.persistentDataPath + fileName);
             data = JsonUtility.FromJson<GameData>(json);
             Debug.Log("Game loaded!");
             // Restore score, enemy location, player location, and maze layout
@@ -92,7 +91,7 @@ public class SaveGameController : MonoBehaviour
     public void SaveGame()
     {
         string json = JsonUtility.ToJson(data);
-        System.IO.File.WriteAllText(Application.persistentDataPath + fileName, json); //open file path for writing
+        File.WriteAllText(Application.persistentDataPath + fileName, json); //open file path for writing
         Debug.Log("Game saved!");
 
     }

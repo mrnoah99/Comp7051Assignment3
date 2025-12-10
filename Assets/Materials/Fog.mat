@@ -97,7 +97,7 @@ Material:
     - _Cull: 2
     - _Cutoff: 0.5
     - _DensityMultiplier: 0.32
-    - _DensityThreshold: 0.36
+    - _DensityThreshold: 0.12
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -107,10 +107,10 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _LightScattering: 1
-    - _MaxDistance: 100
+    - _MaxDistance: 976.6
     - _Metallic: 0
-    - _NoiseOffset: 2
-    - _NoiseTiling: 1
+    - _NoiseOffset: 0
+    - _NoiseTiling: 10
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
@@ -120,7 +120,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
-    - _StepSize: 2
+    - _StepSize: 10
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
