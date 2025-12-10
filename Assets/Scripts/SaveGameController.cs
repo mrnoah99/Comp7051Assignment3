@@ -77,7 +77,7 @@ public class SaveGameController : MonoBehaviour
             player.position = new Vector3(savedData.playerX, savedData.playerY, savedData.playerZ);
             enemy.position = new Vector3(savedData.enemyX, savedData.enemyY, savedData.enemyZ);
             
-            Debug.Log($"Game loaded: playerPos: {player.position} | enemyPos: {enemy.position} | score: {sGCtrl.score}");
+            Debug.Log($"Game loaded! Player loc: {player.position} || Enemy loc: {enemy.position} || Score: {sGCtrl.score}");
             
         }
     }
@@ -106,14 +106,14 @@ public class SaveGameController : MonoBehaviour
     public void SaveGame()
     {
         SaveData(player.position, enemy.position, score);
-        Debug.Log($"Game saved: playerPos: {player.position} | enemyPos: {enemy.position} | score: {sGCtrl.score}");
+        Debug.Log($"Game saved! Player loc: {player.position} || Enemy loc: {enemy.position} || Score: {sGCtrl.score}");
     }
 
     public void ExitGame()
     {
         SaveGame();
         Application.Quit();
-        Debug.Log("Bye bye. . .");
+        Debug.Log("Bye bye!!!!!!");
     }
 }
 
