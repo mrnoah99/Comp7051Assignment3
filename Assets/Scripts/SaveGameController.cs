@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 
 public class SaveGameController : MonoBehaviour
 {
-    public int score; //use persistentDataPath to save high score in custom GameData object
+    public int score = 0; //use persistentDataPath to save high score in custom GameData object
     public Transform player;
     public Transform enemy;
     const string fileName = "savegame.json";

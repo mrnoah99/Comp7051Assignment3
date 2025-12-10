@@ -1561,7 +1561,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9c007dc97ad1fd247b523cf26864ad32, type: 2}
+  - {fileID: 2100000, guid: d9c059ebcff1c6f4995a86531f6c33c4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3658,7 +3658,7 @@ MonoBehaviour:
   score: 0
   player: {fileID: 2011787731}
   enemy: {fileID: 4028260240765132543, guid: ee2dbe316dc5e4272b7073a672edb461, type: 3}
-  data:
+  savedData:
     playerX: 0
     playerY: 0
     playerZ: 0
