@@ -53,7 +53,7 @@ public class EnemyAIController : MonoBehaviour
         float randomX = Random.Range(0.1f, walkPointRangeX);
         float randomZ = Random.Range(0.1f, walkPointRangeZ);
         
-        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+        walkPoint = new Vector3(randomX, transform.position.y, randomZ);
         
         // Check if point is actually on the ground
         if (Physics.Raycast(walkPoint, -transform.up, 2.0f))

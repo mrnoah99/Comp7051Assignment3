@@ -31,7 +31,6 @@ public class SceneChangeFogUpdate : MonoBehaviour
     {
         fog.SetActive(true); //change to handle based on whether we actually want the fog enabled or not
         fogObj.SetActive(!fogObj.activeInHierarchy);
-        Cursor.lockState = fogObj.activeInHierarchy ? CursorLockMode.None : CursorLockMode.Locked;
         Debug.Log("Fog enabled");
     }
 
