@@ -15,8 +15,7 @@ public class SceneChangeFogUpdate : MonoBehaviour
     
     void Awake()
     {
-        fog.SetActive(false);
-        fogObj.SetActive(false);
+        DisableFog();
     }
 
     void Start()
@@ -30,23 +29,13 @@ public class SceneChangeFogUpdate : MonoBehaviour
     
     private void ToggleFog(InputAction.CallbackContext context)
     {
-        if (true)
-        {
-            fog.SetActive(true); //change to handle based on whether we actually want the fog enabled or not
-            fogObj.SetActive(!fogObj.activeInHierarchy);
-            Cursor.lockState = fogObj.activeInHierarchy ? CursorLockMode.None : CursorLockMode.Locked;
-            Debug.Log("Fog enabled");
-        }
-        else
-        {
-            fog.SetActive(false);
-            fogObj.SetActive(false);
-            Cursor.lockState = CursorLockMode.Locked;
-            Debug.Log("Fog disabled");
-        }
+        fog.SetActive(true); //change to handle based on whether we actually want the fog enabled or not
+        fogObj.SetActive(!fogObj.activeInHierarchy);
+        Cursor.lockState = fogObj.activeInHierarchy ? CursorLockMode.None : CursorLockMode.Locked;
+        Debug.Log("Fog enabled");
     }
 
-    public void DisableFog()
+    private void DisableFog()
     {
         fog.SetActive(false);
         fogObj.SetActive(false);

@@ -7,12 +7,12 @@ using UnityEngine.Serialization;
 
 public class SaveGameController : MonoBehaviour
 {
-    public int score = 0; //use persistentDataPath to save high score in custom GameData object
+    public int score; //use persistentDataPath to save high score in custom GameData object
     public Transform player;
     public Transform enemy;
-    const string fileName = "/savegame.json";
+    const string fileName = "savegame.json";
     public static SaveGameController sGCtrl;
-    public GameData data;
+    public GameData savedData;
 
     [SerializeField]
     private GameObject menuObj;
@@ -64,20 +64,20 @@ public class SaveGameController : MonoBehaviour
         if (File.Exists(Application.persistentDataPath + fileName))
         {
             string json = File.ReadAllText(Application.persistentDataPath + fileName);
-            data = JsonUtility.FromJson<GameData>(json);
+            savedData = JsonUtility.FromJson<GameData>(json);
 
-            if (data == null)
+            if (savedData == null)
             {
                 Debug.Log("Save not found!");
                 return;
             }
             
             // Restore score, enemy location, player location, and maze layout
-            sGCtrl.score = data.savedScore;
-            player.position = new Vector3(data.playerX, data.playerY, data.playerZ);
-            enemy.position = new Vector3(data.enemyX, data.enemyY, data.enemyZ);
+            sGCtrl.score = savedData.savedScore;
+            player.position = new Vector3(savedData.playerX, savedData.playerY, savedData.playerZ);
+            enemy.position = new Vector3(savedData.enemyX, savedData.enemyY, savedData.enemyZ);
             
-            Debug.Log("Game loaded!");
+            Debug.Log($"Game loaded: playerPos: {player.position} | enemyPos: {enemy.position} | score: {sGCtrl.score}");
             
         }
     }
@@ -106,7 +106,7 @@ public class SaveGameController : MonoBehaviour
     public void SaveGame()
     {
         SaveData(player.position, enemy.position, score);
-        Debug.Log($"Game saved: playerPos: {player.position} | enemyPos: {enemy.position} | score: {score}");
+        Debug.Log($"Game saved: playerPos: {player.position} | enemyPos: {enemy.position} | score: {sGCtrl.score}");
     }
 
     public void ExitGame()
